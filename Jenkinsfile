@@ -1,4 +1,3 @@
-def project = 'sample-app'
 def  appName = 'sample-app'
 def  feSvcName = "${appName}"
 def  imageTag = "vanneback/go-sample"
@@ -6,17 +5,15 @@ def  imageTag = "vanneback/go-sample"
 pipeline {
   agent {
     kubernetes {
-      label 'sample-app'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
 kind: Pod
 metadata:
 labels:
-  component: ci
 spec:
   # Use service account that can deploy to all namespaces
-  serviceAccountName: cd-jenkins
+  # serviceAccountName: cd-jenkins
   containers:
   - name: golang
     image: golang:1.10

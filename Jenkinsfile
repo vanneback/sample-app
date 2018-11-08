@@ -63,9 +63,9 @@ spec:
         // Change deployed image in canary to the one we just built
           sh("kubectl --namespace=default apply -f k8s/production/")
           sh("kubectl --namespace=default apply -f k8s/services/")
-          sh("SELECTOR=$(kubectl get svc sample-app -o jsonpath='{.spec.selector.app}')")
-          sh("PORT=$(kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}')")
-          sh("NODE=$(kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}')")
+          SELECTOR = sh("kubectl get svc sample-app -o jsonpath='{.spec.selector.app}'")
+          PORT = sh ("kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}'")
+          NODE = sh("kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}'")
           sh("echo http://$NODE:$PORT")
         }
       }

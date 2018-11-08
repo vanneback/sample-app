@@ -6,13 +6,13 @@ spec:
   replicas:
   template:
     metadata:
-      name: go-sample
+      name: sample-app
       labels:
-        app: go-sample
+        app: sample-app
         env: production
     spec:
       containers:
-      - name: go-sample
+      - name: sample-app
         image: vanneback/go-sample
         resources:
           limits:

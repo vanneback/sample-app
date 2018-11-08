@@ -1,74 +1,39 @@
-def project = 'sample-app'
-def  appName = 'sample-app'
-def  feSvcName = "${appName}"
-def  imageTag = "vanneback/go-sample"
-
 pipeline {
-  agent {
-    kubernetes {
-      label 'sample-app'
-      defaultContainer 'jnlp'
-      yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-labels:
-  component: ci
-spec:
-  # Use service account that can deploy to all namespaces
-  serviceAccountName: cd-jenkins
-  containers:
-  - name: golang
-    image: golang:1.10
-    command:
-    - cat
-    tty: true
-  - name: gcloud
-    image: gcr.io/cloud-builders/gcloud
-    command:
-    - cat
-    tty: true
-  - name: kubectl
-    image: gcr.io/cloud-builders/kubectl
-    command:
-    - cat
-    tty: true
-"""
-}
-  }
-  stages {
-    stage('Test') {
-      steps {
-        container('golang') {
-          sh """
-            ln -s `pwd` /go/src/sample-app
-            cd /go/src/sample-app
-            go test
-          """
-        }
-      }
+
+    environment {
+      TEST = 'JA'
+      DB_WNGINE = 'myslql'
     }
-    stage('Build and push image with Container Builder') {
-      steps {
-        container('gcloud') {
-          sh "echo push image ${imageTag} ."
+    agent { docker { image 'python:3.5.1' } }
+    stages {
+        stage('build') {
+            steps {
+                echo "Building"
+                sh 'python --version'
+            }
         }
-      }
-    }
-    stage('Deploy Production') {
-      // Production branch
-      when { branch 'master' }
-      steps{
-        container('kubectl') {
-        // Change deployed image in canary to the one we just built
-          sh("kubectl --namespace=default apply -f k8s/production/")
-          sh("kubectl --namespace=default apply -f k8s/services/")
-          sh("SELECTOR=`kubectl get svc sample-app -o jsonpath='{.spec.selector.app}'`")
-          sh("PORT=`kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}'`")
-          sh("NODE=`kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}'`")
-          sh("echo http://$NODE:$PORT")
+        stage('test') {
+          steps {
+           echo 'Testing'
+          }
         }
-      }
+        stage('deploy') {
+          steps {
+            echo 'Deploying'
+          }
+        }
+        stage('Sanity check') {
+          steps {
+            input "Does the staging environment look ok?"
+          }
+        }
     }
+    post {
+        always {
+            echo 'This will always run'
+        }
+        success {
+            echo 'This will run only if successful'
+        }
   }
 }

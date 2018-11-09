@@ -25,6 +25,7 @@ podTemplate(label: label, containers: [
       // Production branch
       container('kubectl') {
       // Change deployed image in canary to the one we just built
+        sh("sleep 100")
         sh("kubectl --namespace=default apply -f k8s/production.yaml")
         sh("kubectl --namespace=default apply -f k8s/service.yaml")
         sh("SELECTOR=`kubectl get svc sample-app -o jsonpath='{.spec.selector.app}'`")

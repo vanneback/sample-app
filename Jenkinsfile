@@ -11,33 +11,27 @@ podTemplate(label: label, containers: [
     def  imageTag = "vanneback/go-sample"
     
     stage('Test') {
-      steps {
-        container('golang') {
-          sh ("echo go test")
-        }
+      container('golang') {
+        sh ("echo go test")
       }
     }
 
     stage('Build and push image with Container Builder') {
-      steps {
-        container('docker') {
-          sh "echo push image ${imageTag} ."
-        }
+      container('docker') {
+        sh "echo push image ${imageTag} ."
       }
     }
     stage('Deploy Production') {
       // Production branch
       when { branch 'master' }
-      steps{
-        container('kubectl') {
-        // Change deployed image in canary to the one we just built
-          sh("kubectl --namespace=default apply -f k8s/production/")
-          sh("kubectl --namespace=default apply -f k8s/services/")
-          sh("SELECTOR=`kubectl get svc sample-app -o jsonpath='{.spec.selector.app}'`")
-          sh("PORT=`kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}'`")
-          sh("NODE=`kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}'`")
-          sh("echo http://$NODE:$PORT")
-        }
+      container('kubectl') {
+      // Change deployed image in canary to the one we just built
+        sh("kubectl --namespace=default apply -f k8s/production/")
+        sh("kubectl --namespace=default apply -f k8s/services/")
+        sh("SELECTOR=`kubectl get svc sample-app -o jsonpath='{.spec.selector.app}'`")
+        sh("PORT=`kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}'`")
+        sh("NODE=`kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}'`")
+        sh("echo http://$NODE:$PORT")
       }
     }
   }

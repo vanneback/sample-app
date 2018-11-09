@@ -18,12 +18,6 @@ podTemplate(label: label, containers: [
 
     stage('Test') {
       container('golang') {
-        /* sh """
-          sleep 200
-          ln -s `pwd` /app/
-          cd /app/
-          go test 
-        """ */
         sh """
           git clone ${gitURL}
           cd sample-app
@@ -41,9 +35,14 @@ podTemplate(label: label, containers: [
       // Production branch
       container('kubectl') {
       // Change deployed image in canary to the one we just built
-      /* sh("sleep 300")
-        sh("kubectl --namespace=default apply -f k8s/production.yaml")
-        sh("kubectl --namespace=default apply -f k8s/service.yaml")
+        sh """
+          git clone ${gitURL}
+          cd sample-app
+    
+          kubectl --namespace=default apply -f k8s/production.yaml")
+          kubectl --namespace=default apply -f k8s/service.yaml")
+        """
+        /*
         sh("SELECTOR=`kubectl get svc sample-app -o jsonpath='{.spec.selector.app}'`")
         sh("PORT=`kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}'`")
         sh("NODE=`kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}'`")

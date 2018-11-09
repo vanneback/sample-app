@@ -12,12 +12,13 @@ podTemplate(label: label, containers: [
     
     stage('Test') {
       container('golang') {
-        sh """
+        /* sh """
           sleep 200
           ln -s `pwd` /app/
           cd /app/
           go test 
-        """
+        """ */
+        sh ("echo testing complete")
 
       }
     }

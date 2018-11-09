@@ -11,11 +11,11 @@ podTemplate(label: label, containers: [
     def  imageTag = "vanneback/go-sample"
     def myRepo = checkout scm
     def gitCommit = myRepo.GIT_COMMIT
+    def gitURL = myRepo.GIT_URL
     def gitBranch = myRepo.GIT_BRANCH
     def shortGitCommit = "${gitCommit[0..10]}"
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
-      
     stage('Test') {
       container('golang') {
         /* sh """
@@ -25,14 +25,10 @@ podTemplate(label: label, containers: [
           go test 
         """ */
         sh """
-          pwd
-          echo "git branch = ${gitBranch}"
-          echo "git commit = ${gitCommit}"
-          echo "myrepo = ${myRepo}"
-          sleep 200
+          git clone ${gitURL}
+          cd sample-app
+          go test
         """
-        sh ("echo testing complete")
-
       }
     }
 

@@ -2,7 +2,7 @@ def  appName = 'sample-app'
 def  feSvcName = "${appName}"
 def  imageTag = "vanneback/go-sample"
 
-/*pipeline {
+pipeline {
   agent {
     kubernetes {
       defaultContainer 'jnlp'
@@ -20,8 +20,8 @@ spec:
     command:
     - cat
     tty: true
-  - name: gcloud
-    image: gcr.io/cloud-builders/gcloud
+  - name: docker
+    image: docker
     command:
     - cat
     tty: true
@@ -31,8 +31,8 @@ spec:
     - cat
     tty: true
 """
-}*/
-pipeline {
+}
+/*pipeline {
   pod {
     containers {
       container {
@@ -49,7 +49,7 @@ pipeline {
       }
     }
   }
-  agent none
+  agent none */
   stages {
     stage('Test') {
       steps {

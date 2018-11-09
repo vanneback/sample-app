@@ -12,11 +12,9 @@ kind: Pod
 metadata:
 labels:
 spec:
-  # Use service account that can deploy to all namespaces
-  serviceAccountName: default
   containers:
-  - name: golang
-    image: golang:1.10
+  - name: nginx
+    image: nginx
     command:
     - cat
     tty: true
@@ -36,12 +34,8 @@ spec:
   stages {
     stage('Test') {
       steps {
-        container('golang') {
-          sh """
-            ln -s `pwd` /go/src/sample-app
-            cd /go/src/sample-app
-            echo "go test"
-          """
+        container('nginx') {
+          sh ("echo go test")
         }
       }
     }

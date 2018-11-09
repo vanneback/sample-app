@@ -39,7 +39,7 @@ podTemplate(label: label, containers: [
         sh("PORT=`kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}'`")
         sh("NODE=`kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}'`")
         sh("echo http://$NODE:$PORT") */
-        sh("deployed")
+        sh("echo deployed")
       }
     }
   }

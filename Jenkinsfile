@@ -23,7 +23,7 @@ podTemplate(label: label, containers: [
           ln -s `pwd` /app/
           cd /app/
           go test 
-        """ */i
+        """ */
         sh """
           pwd
           echo "git branch = ${gitBranch}"

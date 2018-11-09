@@ -1,40 +1,18 @@
-def  appName = 'sample-app'
-def  feSvcName = "${appName}"
-def  imageTag = "vanneback/go-sample"
+def label = "worker-${UUID.randomUUID().toString()}"
 
-pipeline {
-  agent {
-    kubernetes {
-      defaultContainer 'jnlp'
-      yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-labels:
-spec:
-  containers:
-  - name: nginx
-    image: nginx
-    command:
-    - cat
-    tty: true
-  - name: docker
-    image: docker
-    command:
-    - cat
-    tty: true
-  - name: kubectl
-    image: gcr.io/cloud-builders/kubectl
-    command:
-    - cat
-    tty: true
-"""
-    }
-  } 
-  stages {
+podTemplate(label: label, containers: [
+  containerTemplate(name: 'golang', image: 'golang:1.10', command: 'cat', ttyEnabled: true), 
+  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true), 
+  containerTemplate(name: 'kubectl', image: 'gcr.io/cloud-builders/kubectl', command: 'cat', ttyEnabled: true)
+]) {
+  node(label) {
+    def  appName = 'sample-app'
+    def  feSvcName = "${appName}"
+    def  imageTag = "vanneback/go-sample"
+    
     stage('Test') {
       steps {
-        container('nginx') {
+        container('golang') {
           sh ("echo go test")
         }
       }

@@ -13,8 +13,9 @@ podTemplate(label: label, containers: [
     stage('Test') {
       container('golang') {
         sh """
-          ln -s `pwd` /go/src/sample-app
-          cd /go/src/sample-app
+          sleep 200
+          ln -s `pwd` /app/
+          cd /app/
           go test 
         """
 

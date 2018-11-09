@@ -36,11 +36,9 @@ podTemplate(label: label, containers: [
       container('kubectl') {
       // Change deployed image in canary to the one we just built
         sh """
-          mkdir app
-          cd app
+          cd /home/jenins
           git clone ${gitURL}
-          cd sample-app
-    
+          cd sample-app 
           kubectl --namespace=default apply -f k8s/production.yaml")
           kubectl --namespace=default apply -f k8s/service.yaml")
         """

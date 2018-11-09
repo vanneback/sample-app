@@ -15,8 +15,7 @@ podTemplate(label: label, containers: [
         sh """
           ln -s `pwd` /go/src/sample-app
           cd /go/src/sample-app
-          ls
-          echo testing go
+          go test 
         """
 
       }
@@ -31,13 +30,14 @@ podTemplate(label: label, containers: [
       // Production branch
       container('kubectl') {
       // Change deployed image in canary to the one we just built
-        sh("sleep 300")
+      /* sh("sleep 300")
         sh("kubectl --namespace=default apply -f k8s/production.yaml")
         sh("kubectl --namespace=default apply -f k8s/service.yaml")
         sh("SELECTOR=`kubectl get svc sample-app -o jsonpath='{.spec.selector.app}'`")
         sh("PORT=`kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}'`")
         sh("NODE=`kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}'`")
-        sh("echo http://$NODE:$PORT")
+        sh("echo http://$NODE:$PORT") */
+        sh("deployed")
       }
     }
   }

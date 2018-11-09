@@ -29,6 +29,7 @@ podTemplate(label: label, containers: [
           echo "git branch = ${gitBranch}"
           echo "git commit = ${gitCommit}"
           echo "myrepo = ${myRepo}"
+        """
         sh ("echo testing complete")
 
       }

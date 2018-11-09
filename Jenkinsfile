@@ -2,7 +2,7 @@ def  appName = 'sample-app'
 def  feSvcName = "${appName}"
 def  imageTag = "vanneback/go-sample"
 
-pipeline {
+/*pipeline {
   agent {
     kubernetes {
       defaultContainer 'jnlp'
@@ -13,7 +13,7 @@ metadata:
 labels:
 spec:
   # Use service account that can deploy to all namespaces
-  # serviceAccountName: cd-jenkins
+  serviceAccountName: default
   containers:
   - name: golang
     image: golang:1.10
@@ -31,7 +31,25 @@ spec:
     - cat
     tty: true
 """
-}
+}*/
+pipeline {
+  pod {
+    containers {
+      container {
+        name 'goland'
+        image 'golang:1.10'
+      }
+      container {
+        name 'kubectl'
+        image 'gcr.io/cloud-builders/kubectl'
+      }
+      container {
+        name 'docker'
+        image 'docker'
+      }
+    }
+  }
+  agent none
   }
   stages {
     stage('Test') {
@@ -40,14 +58,15 @@ spec:
           sh """
             ln -s `pwd` /go/src/sample-app
             cd /go/src/sample-app
-            go test
+            echo "go test"
           """
         }
       }
     }
+
     stage('Build and push image with Container Builder') {
       steps {
-        container('gcloud') {
+        container('docker') {
           sh "echo push image ${imageTag} ."
         }
       }

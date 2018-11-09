@@ -23,7 +23,6 @@ podTemplate(label: label, containers: [
     }
     stage('Deploy Production') {
       // Production branch
-      when { branch 'master' }
       container('kubectl') {
       // Change deployed image in canary to the one we just built
         sh("kubectl --namespace=default apply -f k8s/production/")

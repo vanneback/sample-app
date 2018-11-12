@@ -28,10 +28,10 @@ volumes: [
 
     stage('Build and push image with Container Builder') {
       container('docker') {
-        sh '''
+        /* sh '''
           docker build -t vanneback/go-sample:latest .
-        '''
-        /*
+        ''' */
+        
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
           credentialsId: 'dockerhub',
           usernameVariable: 'DOCKER_HUB_USER',
@@ -43,7 +43,7 @@ volumes: [
             docker build -t vanneback/sample-app:${gitCommit} .
             docker push vanneback/sample-app:${gitCommit}
             '''
-        }  */
+        }  
         sh "echo push image ${imageTag} ."
       }
     }

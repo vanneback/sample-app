@@ -45,7 +45,7 @@ volumes: [
             docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
             docker build -t vanneback/go-sample:latest .
             docker push vanneback/go-sample:latest
-            docker push ${imageTag}
+            docker push vanneback/go-sample:${env.BUILD_NUMBER}
             '''
         }  
         sh "echo push image ${imageTag} ."

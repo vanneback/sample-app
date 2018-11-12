@@ -3,7 +3,7 @@ def label = "worker-${UUID.randomUUID().toString()}"
 podTemplate(label: label, containers: [
   containerTemplate(name: 'golang', image: 'golang:1.10', command: 'cat', ttyEnabled: true), 
   containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true), 
-  containerTemplate(name: 'kubectl', image: 'gcr.io/cloud-builders/kubectl', command: 'cat', ttyEnabled: true)
+  containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
 ]) {
   node(label) {
     def  appName = 'sample-app'

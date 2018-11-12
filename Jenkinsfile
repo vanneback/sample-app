@@ -24,7 +24,7 @@ podTemplate(label: label, containers: [
             go test
           echo test
         """ */
-        sh("echo testing")
+        sh("go test")
       }
     }
 

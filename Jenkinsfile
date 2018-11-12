@@ -37,13 +37,10 @@ podTemplate(label: label, containers: [
       // Production branch
       container('kubectl') {
       // Change deployed image in canary to the one we just built
-       /* sh """
-          cd /home/jenkins
-          git clone ${gitURL}
-          cd sample-app 
+        sh """
           kubectl --namespace=default apply -f k8s/production.yaml")
           kubectl --namespace=default apply -f k8s/service.yaml")
-        """ */
+        """ 
         /*
         sh("SELECTOR=`kubectl get svc sample-app -o jsonpath='{.spec.selector.app}'`")
         sh("PORT=`kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}'`")

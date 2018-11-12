@@ -20,7 +20,7 @@ volumes: [
     def gitBranch = myRepo.GIT_BRANCH
     def shortGitCommit = "${gitCommit[0..10]}"
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
-    echo "${env.getEnvironment()}"
+    echo "env.BUILD_NUMBER"
 
     stage('Test') {
       container('golang') {

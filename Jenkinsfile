@@ -58,9 +58,9 @@ volumes: [
           #!/bin/bash
           kubectl --namespace=default apply -f k8s/production.yaml
           kubectl --namespace=default apply -f k8s/service.yaml
-          kubectl patch deployment go-sample-production -p \
-  "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
           SELECTOR=$(kubectl get svc sample-app -o jsonpath='{.spec.selector.app}')
+          kubectl delete pods -l app=$SELECTOR 
+          kubectl rollout status -f k8s/production.yaml
           PORT=$(kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}')
           NODE=$(kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}')
           echo http://$NODE:$PORT

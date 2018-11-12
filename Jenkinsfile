@@ -25,7 +25,6 @@ volumes: [
       container('golang') {
         sh '''
           go test
-          echo "echo "${env.getEnvironment()}"
         '''        
       }
     }

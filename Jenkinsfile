@@ -29,6 +29,8 @@ Volumes: [
     stage('Build and push image with Container Builder') {
       container('docker') {
         sh '''
+          systemctl start docker 
+          sleep 6
           docker build -t vanneback/go-sample:latest .
         '''
         /*

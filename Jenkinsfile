@@ -20,6 +20,7 @@ volumes: [
     def gitBranch = myRepo.GIT_BRANCH
     def shortGitCommit = "${gitCommit[0..10]}"
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
+    echo "${env.getEnvironment()}"
 
     stage('Test') {
       container('golang') {
@@ -45,7 +46,6 @@ volumes: [
             docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
             docker build -t vanneback/go-sample:latest .
             docker push vanneback/go-sample:latest
-            docker push vanneback/go-sample:${BUILD_NUMBER}
             '''
         }  
         sh "echo push image ${imageTag} ."

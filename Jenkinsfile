@@ -4,7 +4,11 @@ podTemplate(label: label, containers: [
   containerTemplate(name: 'golang', image: 'golang:1.10', command: 'cat', ttyEnabled: true), 
   containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true), 
   containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
+],
+Volumes: [
+  hostPathVolume(mountPath: '/var/run/docker.soock', hostPath: '/var/run/docker.sock')
 ]) {
+
   node(label) {
     def  appName = 'sample-app'
     def  feSvcName = "${appName}"
@@ -18,18 +22,22 @@ podTemplate(label: label, containers: [
 
     stage('Test') {
       container('golang') {
-        /* sh """
-            git clone ${gitURL}
-            cd sample-app
-            go test
-          echo test
-        """ */
         sh("go test")
       }
     }
 
     stage('Build and push image with Container Builder') {
       container('docker') {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding',
+          credentialsId: 'dockerhub',
+          usernameVariable: 'DOCKER_HUB_USER',
+          passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
+          sh '''
+            docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
+            docker build -t vanneback/sample-app:${gitCommit} .
+            docker push vanneback/sample-app:${gitCommit}
+            '''
+}
         sh "echo push image ${imageTag} ."
       }
     }
@@ -46,11 +54,6 @@ podTemplate(label: label, containers: [
           NODE=$(kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}')
           echo http://$NODE:$PORT
         '''
-        /*
-        sh("SELECTOR=`kubectl get svc sample-app -o jsonpath='{.spec.selector.app}'`")
-        sh("PORT=`kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}'`")
-        sh("NODE=`kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}'`")
-        sh("echo http://$NODE:$PORT") */
         sh("echo deployed")
       }
     }

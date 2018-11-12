@@ -38,7 +38,6 @@ podTemplate(label: label, containers: [
       container('kubectl') {
       // Change deployed image in canary to the one we just built
         sh """ 
-          !#/bin/bash
           kubectl --namespace=default apply -f k8s/production.yaml
           kubectl --namespace=default apply -f k8s/service.yaml
           SELECTOR=$(kubectl get svc sample-app -o jsonpath='{.spec.selector.app}')

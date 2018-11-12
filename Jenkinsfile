@@ -20,7 +20,6 @@ volumes: [
     def gitBranch = myRepo.GIT_BRANCH
     def shortGitCommit = "${gitCommit[0..10]}"
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
-    echo "env.BUILD_NUMBER"
 
     stage('Test') {
       container('golang') {
@@ -59,6 +58,8 @@ volumes: [
           #!/bin/bash
           kubectl --namespace=default apply -f k8s/production.yaml
           kubectl --namespace=default apply -f k8s/service.yaml
+          kubectl patch deployment go-sample-production -p \
+  "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
           SELECTOR=$(kubectl get svc sample-app -o jsonpath='{.spec.selector.app}')
           PORT=$(kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}')
           NODE=$(kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}')

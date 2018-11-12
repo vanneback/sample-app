@@ -37,6 +37,8 @@ Volumes: [
           usernameVariable: 'DOCKER_HUB_USER',
           passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
           sh '''
+            #!/bin/bash
+            set -e
             docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
             docker build -t vanneback/sample-app:${gitCommit} .
             docker push vanneback/sample-app:${gitCommit}

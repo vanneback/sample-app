@@ -28,6 +28,8 @@ Volumes: [
 
     stage('Build and push image with Container Builder') {
       container('docker') {
+        echo "GIT_BRANCH=${gitBranch}" >> /etc/environment
+        echo "GIT_COMMIT=${gitCommit}" >> /etc/environment
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
           credentialsId: 'dockerhub',
           usernameVariable: 'DOCKER_HUB_USER',

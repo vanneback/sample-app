@@ -28,10 +28,10 @@ Volumes: [
 
     stage('Build and push image with Container Builder') {
       container('docker') {
-       sh '''
-          echo "GIT_BRANCH=${gitBranch}" >> /etc/environment
-          echo "GIT_COMMIT=${gitCommit}" >> /etc/environment
+        sh '''
+          docker build -t vanneback/go-sample:latest .
         '''
+        /*
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
           credentialsId: 'dockerhub',
           usernameVariable: 'DOCKER_HUB_USER',
@@ -42,7 +42,7 @@ Volumes: [
             docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
             docker build -t vanneback/sample-app:${gitCommit} .
             docker push vanneback/sample-app:${gitCommit}
-            '''
+            ''' */
 }
         sh "echo push image ${imageTag} ."
       }

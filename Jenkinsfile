@@ -6,7 +6,7 @@ podTemplate(label: label, containers: [
   containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
 ],
 Volumes: [
-  hostPathVolume(mountPath: '///var/run/docker.sock', hostPath: '///var/run/docker.sock')
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
 
   node(label) {
@@ -29,8 +29,7 @@ Volumes: [
     stage('Build and push image with Container Builder') {
       container('docker') {
         sh '''
-          systemctl start docker 
-          sleep 6
+          sleep 500
           docker build -t vanneback/go-sample:latest .
         '''
         /*
@@ -45,7 +44,7 @@ Volumes: [
             docker build -t vanneback/sample-app:${gitCommit} .
             docker push vanneback/sample-app:${gitCommit}
             '''
-        }*/
+        }  */
         sh "echo push image ${imageTag} ."
       }
     }

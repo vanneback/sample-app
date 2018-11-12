@@ -12,7 +12,7 @@ volumes: [
   node(label) {
     def  appName = 'sample-app'
     def  feSvcName = "${appName}"
-    def  imageTag = "vanneback/go-sample"
+    def  imageTag = "vanneback/go-sample:${env.BUILD_NUMBER}"
     def myRepo = checkout scm
     def gitCommit = myRepo.GIT_COMMIT
     def gitURL = myRepo.GIT_URL
@@ -24,7 +24,7 @@ volumes: [
       container('golang') {
         sh '''
           go test
-          echo "GIT_COMMIT=${gitCommit}"
+          echo "imageTag=${imageTag}"
         '''        
       }
     }
@@ -43,8 +43,9 @@ volumes: [
             #!/bin/bash
             set -e
             docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-            docker build -t vanneback/sample-app:latest .
-            docker push vanneback/sample-app:latest
+            docker build -t vanneback/go-sample:latest .
+            docker push vanneback/go-sample:latest
+            docker push ${imageTag}
             '''
         }  
         sh "echo push image ${imageTag} ."

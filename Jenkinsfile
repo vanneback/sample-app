@@ -18,12 +18,13 @@ podTemplate(label: label, containers: [
 
     stage('Test') {
       container('golang') {
-        sh """
-          // git clone ${gitURL}
-           // cd sample-app
-          // go test
+        /* sh """
+            git clone ${gitURL}
+            cd sample-app
+            go test
           echo test
-        """
+        """ */
+        sh("echo testing")
       }
     }
 

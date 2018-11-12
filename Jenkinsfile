@@ -42,10 +42,11 @@ podTemplate(label: label, containers: [
           kubectl --namespace=default apply -f k8s/production.yaml
           kubectl --namespace=default apply -f k8s/service.yaml
           SELECTOR=$(kubectl get svc sample-app -o jsonpath='{.spec.selector.app}')
+          PORT=$(kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}')
+          NODE=$(kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}')
+          echo http://$NODE:$PORT
         '''
         /*
-        PORT=$(kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}')
-        NODE=$(kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}')
         sh("SELECTOR=`kubectl get svc sample-app -o jsonpath='{.spec.selector.app}'`")
         sh("PORT=`kubectl get svc sample-app -o jsonpath='{.spec.ports[0].nodePort}'`")
         sh("NODE=`kubectl get pod -l app=$SELECTOR -o jsonpath='{.items[0].status.hostIP}'`")

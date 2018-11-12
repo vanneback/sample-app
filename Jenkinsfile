@@ -2,7 +2,8 @@ def label = "worker-${UUID.randomUUID().toString()}"
 
 podTemplate(label: label, containers: [
   containerTemplate(name: 'golang', image: 'golang:1.10', command: 'cat', ttyEnabled: true), 
-  containerTemplate(name: 'docker', image: 'docker:18.06.1-ce', command: 'cat', ttyEnabled: true), 
+  containerTemplate(name: 'docker', image: 'docker:18.06.1-ce', command: 'cat', ttyEnabled: true,
+  envVars: [ envVar(key: 'BUILD_NUMBER', value: '$env.BUILD_NUMBER')]), 
   containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
 ],
 volumes: [
@@ -24,7 +25,7 @@ volumes: [
       container('golang') {
         sh '''
           go test
-          echo "imageTag=${imageTag}"
+          echo "echo "${env.getEnvironment()}"
         '''        
       }
     }
@@ -45,7 +46,7 @@ volumes: [
             docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
             docker build -t vanneback/go-sample:latest .
             docker push vanneback/go-sample:latest
-            docker push vanneback/go-sample:${env.BUILD_NUMBER}
+            docker push vanneback/go-sample:${BUILD_NUMBER}
             '''
         }  
         sh "echo push image ${imageTag} ."

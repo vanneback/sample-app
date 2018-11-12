@@ -5,7 +5,7 @@ podTemplate(label: label, containers: [
   containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true), 
   containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
 ],
-Volumes: [
+volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock', type: 'Socket')
 ]) {
 
@@ -29,7 +29,6 @@ Volumes: [
     stage('Build and push image with Container Builder') {
       container('docker') {
         sh '''
-          sleep 500
           docker build -t vanneback/go-sample:latest .
         '''
         /*

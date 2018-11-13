@@ -5,6 +5,20 @@ body  {
    background-size:cover
 }
 
+div {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+p {
+  text-align: center;
+  line-height: 100px;
+  color: aliceblue;
+
+}
+
 .welcome {
    font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
    font-size: 3rem;
@@ -12,8 +26,8 @@ body  {
 }
 
 .center {
-   height: 100vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center
-}​
+}

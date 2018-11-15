@@ -4,20 +4,20 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"time"
 )
 
 //Create a struct that holds information to be displayed in our HTML file
 type Welcome struct {
 	Name string
-	Time string
+	Provider string
+  Version string
 }
 
 //Go application entrypoint
 func main() {
 	//Instantiate a Welcome struct object and pass in some random information.
 	//We shall get the name of the user as a query parameter from the URL
-	welcome := Welcome{"Emil!", time.Now().Format(time.Stamp)}
+	welcome := Welcome{"Emil!", "Vagrant", "2.0"}
 
 	//We tell Go exactly where we can find our html file. We ask Go to parse the html file (Notice
 	// the relative path). We wrap it in a call to template.Must() which handles any errors and halts if there are fatal errors

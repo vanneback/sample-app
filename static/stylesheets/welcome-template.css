@@ -14,8 +14,7 @@ div {
 
 p {
   text-align: center;
-  line-height: 100px;
-  color: aliceblue;
+  color: aliceblue
 
 }
 
@@ -26,7 +25,7 @@ p {
 }
 
 .center {
-    height: 100vh;
+    height: 90vh;
     display: flex;
     justify-content: center;
     align-items: center

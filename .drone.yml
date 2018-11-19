@@ -1,0 +1,15 @@
+workspace:
+  base: ~/apps/go
+  path: src/sample-app
+
+pipeline:
+  test:
+    image: golang:alpine
+    commands: 
+    - go vet
+    - go test -v -cover
+  
+  build:
+    image: golang:alpine
+    commands:
+      go run main.go

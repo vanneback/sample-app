@@ -1,15 +1,29 @@
 workspace:
-  base: ~/apps/go
+  base: /home/emil/apps/go
   path: src/sample-app
 
 pipeline:
   test:
-    image: golang:alpine
+    image: golang
     commands: 
     - go vet
     - go test -v -cover
-  
+      
   build:
-    image: golang:alpine
+    image: docker
+    # volumes:
+    #  - /var/run/docker.sock:/var/run/docker.sock
+    
+    secrets: [ docker_username, docker_password ]
     commands:
-      go run main.go
+      - echo $DOCKER_USERNAME
+      - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - docker build -t vanneback/sample-app .
+      - docker push vanneback/sample-app
+#  docker:
+#   image: plugins/docker
+#   secrets: [ docker_username, docker_password ]
+#   repo: vanneback/sample-app
+#   tags: latest 
+#   registry: vanneback/sample-app
+#   insecure: true

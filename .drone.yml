@@ -32,6 +32,7 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     secrets: [ docker_username, docker_password ]
+    target: deploy
     repo: vanneback/sample-app
     auto_tag: false
     tags: 

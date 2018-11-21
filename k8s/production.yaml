@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: sample-app
-        image: vanneback/go-sample:latest
+        image: vanneback/sample-app:latest
         resources:
           limits:
             memory: "500Mi"

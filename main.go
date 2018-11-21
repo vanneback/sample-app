@@ -17,7 +17,7 @@ type Welcome struct {
 func main() {
 	//Instantiate a Welcome struct object and pass in some random information.
 	//We shall get the name of the user as a query parameter from the URL
-	welcome := Welcome{"Emil!", "Drone", "2.4"}
+	welcome := Welcome{"Emil!", "Drone", "0.4"}
 
 	//We tell Go exactly where we can find our html file. We ask Go to parse the html file (Notice
 	// the relative path). We wrap it in a call to template.Must() which handles any errors and halts if there are fatal errors

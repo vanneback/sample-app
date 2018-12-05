@@ -3,19 +3,19 @@ kind: Service
 metadata:
   labels:
     app: sample-app
-    env: production
+    env: staging
   name: sample-app
-  namespace: production
+  namespace: staging
 spec:
-  clusterIP: 10.98.66.91
+  clusterIP: 10.98.66.90
   externalTrafficPolicy: Cluster
   ports:
-  - nodePort: 30489
+  - nodePort: 30490
     port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
     app: sample-app
-    env: production
+    env: staging
   sessionAffinity: None
   type: NodePort

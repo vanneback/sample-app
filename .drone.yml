@@ -8,25 +8,8 @@ pipeline:
     commands: 
     - go vet
     - go test -v -cover
-    - env
-      
-#  build:
-#    image: docker
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    
-#    secrets: [ docker_username, docker_password ]
-#    commands:
-#      - echo $DOCKER_USERNAME
-#      - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-#      - docker build -t vanneback/sample-app:latest .
-#      - docker tag vanneback/sample-app:latest 
-#        vanneback/sample-app:$(docker images | awk '($1 == "vanneback/sample-app" && $2 != "latest") {print $2 += .1; exit}')
-#      - docker push vanneback/sample-app:latest
-#      - docker push vanneback/sample-app:$(docker images | 
-#        awk '($1 == "vanneback/sample-app" && $2 != "latest") {print $2; exit}')
-#
- 
+
+  
   docker:
     image: plugins/docker
     volumes:
@@ -37,20 +20,79 @@ pipeline:
     auto_tag: false
     tags: 
       - latest
-      - v1.0.0       
-  deploy:
-    image: lachlanevenson/k8s-kubectl:v1.10.10
-
+      - v1.0.2 
+  build:
+    image: vanneback/drone-deploy-local-plugin
     volumes:
-      - /home/emil/.kube/v_kube_conf:/home/emil/.kube/config
+      - /var/run/docker.sock:/var/run/docker.sock
+    
+    repo: vanneback/sample-app
+    port: 3000
+    container_name: sample
 
-    environment:
-      - KUBECONFIG=/home/emil/.kube/config
-    commands:
-      - kubectl apply -f k8s/production.yaml
-      - kubectl apply -f k8s/service.yaml
-      - SELECTOR=$(kubectl get svc sample-app -o jsonpath='{.spec.selector.app}')
-      -  kubectl delete pods -l app=$SELECTOR
-      -  kubectl rollout status -f k8s/production.yaml      
+
+  production:
+    image: quay.io/honestbee/drone-kubernetes
+    deployment: sample-app
+    container: sample-app
+    namespace: production
+    tag: v1.0.2
+    repo: vanneback/sample-app
+    kubernetes_server: ${KUBERNETES_SERVER}
+    # kubernetes_cert: ${KUBERNETES_CERT_PROD}
+    kubernetes_token: ${KUBERNETES_TOKEN}
+#    #when:
+#    # branch: [ production ]
+#
+#  staging:
+#    image: quay.io/honestbee/drone-kubernetes
+#    deployment: sample-app
+#    container: sample-app
+#    namespace: staging
+#    tag: 0.6
+#    repo: vanneback/sample-app
+#    kubernetes_server: ${KUBERNETES_SERVER}
+#    # kubernetes_cert: ${KUBERNETES_CERT_STAGING}
+#    kubernetes_token: ${KUBERNETES_TOKEN}
+#    #when:
+#    # branch: [ staging ]
+#
  
+      
+#  deploy:
+#    image: lachlanevenson/k8s-kubectl:v1.10.10
+#
+#    volumes:
+#      - /home/emil/.kube/v_kube_conf:/home/emil/.kube/config
+#
+#    environment:
+#      - KUBECONFIG=/home/emil/.kube/config
+#    commands:
+#      - kubectl apply -f k8s/production.yaml
+#      - kubectl apply -f k8s/service.yaml
+#      - SELECTOR=$(kubectl get svc sample-app -o jsonpath='{.spec.selector.app}')
+#      -  kubectl delete pods -l app=$SELECTOR
+#      -  kubectl rollout status -f k8s/production.yaml      
+
+  
+#    build:
+#    image: docker
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    
+#    secrets: [ docker_username, docker_password ]
+#    commands:
+#      - docker container kill sample-app
+#      - docker container rm sample-app
+#      - docker run --name=sample-app -d -p 8080:8080 vanneback/sample-app 
+#      - echo $DOCKER_USERNAME
+#      - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+#      - docker build -t vanneback/sample-app:latest .
+#      - docker tag vanneback/sample-app:latest 
+#        vanneback/sample-app:$(docker images | awk '($1 == "vanneback/sample-app" && $2 != "latest") {print $2 += .1; exit}')
+#      - docker push vanneback/sample-app:latest
+#      - docker push vanneback/sample-app:$(docker images | 
+#        awk '($1 == "vanneback/sample-app" && $2 != "latest") {print $2; exit}')
+#
+
  

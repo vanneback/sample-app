@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: sample-app
-  namespace: production
+  namespace: staging
 spec:
   replicas:
   template:
@@ -10,7 +10,7 @@ spec:
       name: sample-app
       labels:
         app: sample-app
-        env: production
+        env: staging
     spec:
       containers:
       - name: sample-app

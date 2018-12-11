@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: sample-app
-  namespace: production
+  namespace: default
 spec:
   replicas:
   template:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: sample-app
-        image: vanneback/sample-app:0.4
+        image: vanneback/sample-app
         resources:
           limits:
             memory: "500Mi"

@@ -10,40 +10,42 @@ pipeline:
     - go test -v -cover
 
   
-  docker:
-    image: plugins/docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    secrets: [ docker_username, docker_password ]
-    target: deploy
-    repo: vanneback/sample-app
-    auto_tag: false
-    tags: 
-      - latest
-      - v1.0.2 
-  build:
-    image: vanneback/drone-deploy-local-plugin
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    
-    repo: vanneback/sample-app
-    port: 3000
-    container_name: sample
+#  docker:
+#    image: plugins/docker
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    secrets: [ docker_username, docker_password ]
+#   base64 target: deploy
+#    repo: vanneback/sample-app
+#    auto_tag: false
+#    tags: 
+#      - latest
+#      - v1.0.2 
+#        
+#  build:
+#    image: vanneback/drone-deploy-local-plugin
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    
+#    repo: vanneback/sample-app
+#    port: 3000
+#    container_name: sample
+#
 
-
-  production:
-    image: quay.io/honestbee/drone-kubernetes
-    deployment: sample-app
-    container: sample-app
-    namespace: production
-    tag: v1.0.2
-    repo: vanneback/sample-app
-    kubernetes_server: ${KUBERNETES_SERVER}
-    # kubernetes_cert: ${KUBERNETES_CERT_PROD}
-    kubernetes_token: ${KUBERNETES_TOKEN}
+#  production:
+#    image: quay.io/honestbee/drone-kubernetes
+#    deployment: sample-app
+#    container: sample-app
+#    # namespace: production
+#    #    tag: v1.0.2
+#    repo: vanneback/sample-app
+#    kubernetes_user: kubernetes-admin
+#    kubernetes_server: ${KUBERNETES_SERVER}
+#    kubernetes_cert: ${KUBERNETES_CERT}
+#    kubernetes_token: ${KUBERNETES_TOKEN}
 #    #when:
 #    # branch: [ production ]
-#
+
 #  staging:
 #    image: quay.io/honestbee/drone-kubernetes
 #    deployment: sample-app
@@ -71,9 +73,9 @@ pipeline:
 #      - kubectl apply -f k8s/production.yaml
 #      - kubectl apply -f k8s/service.yaml
 #      - SELECTOR=$(kubectl get svc sample-app -o jsonpath='{.spec.selector.app}')
-#      -  kubectl delete pods -l app=$SELECTOR
-#      -  kubectl rollout status -f k8s/production.yaml      
-
+#      - kubectl delete pods -l app=$SELECTOR
+#      - kubectl rollout status -f k8s/production.yaml      
+#
   
 #    build:
 #    image: docker

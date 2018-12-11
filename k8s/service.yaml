@@ -5,7 +5,7 @@ metadata:
     app: sample-app
     env: production
   name: sample-app
-  namespace: production
+  namespace: default
 spec:
   clusterIP: 10.98.66.91
   externalTrafficPolicy: Cluster

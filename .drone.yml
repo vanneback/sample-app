@@ -1,16 +1,16 @@
 #workspace:
 #  base: /go
 #  path: src/sample-app
-kind: pipeline
-name: default
-
-steps:
-- name: test
-  image: golang
-  commands: 
-  - go vet
-  - go test -v -cover
-  
+#kind: pipeline
+#name: default
+#
+pipeline:
+  test:
+    image: golang
+    commands: 
+    - go vet
+    - go test -v -cover
+#  
 #  docker:
 #    image: plugins/docker
 #    volumes:

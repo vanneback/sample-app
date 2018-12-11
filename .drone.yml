@@ -10,18 +10,18 @@ pipeline:
     commands: 
     - go vet
     - go test -v -cover
-#  
-#  docker:
-#    image: plugins/docker
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    secrets: [ docker_username, docker_password ]
-#   base64 target: deploy
-#    repo: vanneback/sample-app
-#    auto_tag: false
-#    tags: 
-#      - latest
-#      - v1.0.2 
+  
+  docker:
+    image: plugins/docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    secrets: [ docker_username, docker_password ]
+    #base64 target: deploy
+    repo: vanneback/sample-app
+    auto_tag: false
+    tags: 
+      - latest
+      - v1.0.3 
 #        
 #  build:
 #    image: vanneback/drone-deploy-local-plugin

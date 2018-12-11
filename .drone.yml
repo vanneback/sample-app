@@ -1,6 +1,6 @@
-workspace:
-  base: /go
-  path: src/sample-app
+#workspace:
+#  base: /go
+#  path: src/sample-app
 
 pipeline:
   test:

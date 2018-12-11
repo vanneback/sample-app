@@ -13,8 +13,8 @@ pipeline:
   
   docker:
     image: plugins/docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    #volumes:
+    #  - /var/run/docker.sock:/var/run/docker.sock
     secrets: [ docker_username, docker_password ]
     #base64 target: deploy
     repo: vanneback/sample-app

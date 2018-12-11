@@ -10,10 +10,6 @@ steps:
   commands: 
   - go vet
   - go test -v -cover
-volumes:
-- name: data
-  host:
-    path: /drone/src
   
 #  docker:
 #    image: plugins/docker

@@ -1,5 +1,5 @@
 workspace:
-  base: /home/emil/apps/go
+  base: /go
   path: src/sample-app
 
 pipeline:

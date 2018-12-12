@@ -45,21 +45,20 @@ pipeline:
       #    when:
       #      branch: [ production ]
       #
-      #  staging:
-      #    image: quay.io/honestbee/drone-kubernetes
-      #    deployment: sample-app
-      #    container: sample-app
-      #    namespace: staging
-      #    tag: v1.0.5
-      #    repo: vanneback/sample-app
-      #    kubernetes_user: admin
-      #    secrets: [kubernetes_server, kubernetes_cert, kubernetes_token_staging]
-      #    kubernetes_server: ${KUBERNETES_SERVER}
-      #    #kubernetes_server: https://35.228.83.83  
-      #    kubernetes_cert: ${KUBERNETES_CERT}
-      #    kubernetes_token: ${KUBERNETES_TOKEN_STAGING}
-      #    when:
-      #      branch: [ staging ]
+  staging:
+    image: quay.io/honestbee/drone-kubernetes
+    deployment: sample-app
+    container: sample-app
+    namespace: staging
+    tag: v1.0.5
+    repo: vanneback/sample-app
+    kubernetes_user: admin
+    secrets: [kubernetes_server,  kubernetes_token_staging]
+    kubernetes_server: ${KUBERNETES_SERVER}
+    #kubernetes_server: https://35.228.83.83  
+    kubernetes_token: ${KUBERNETES_TOKEN_STAGING}
+    when:
+      branch: [ staging ]
 
  
       

@@ -62,6 +62,7 @@ pipeline:
       from_secret: kubernetes_cert
     kubernetes_token:
       from_secret: kubernetes_token_staging
+
     #kubernetes_server: https://35.228.83.83  
     #kubernetes_cert: ${KUBERNETES_CERT}
     #kubernetes_token: ${KUBERNETES_TOKEN_STAGING}

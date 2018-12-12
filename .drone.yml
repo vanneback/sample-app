@@ -22,6 +22,8 @@ pipeline:
     tags: 
       - latest
       - v1.0.3 
+    when:
+      branch: [ staging ]
 #        
 #  build:
 #    image: vanneback/drone-deploy-local-plugin

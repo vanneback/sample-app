@@ -16,14 +16,10 @@ pipeline:
     #volumes:
     #  - /var/run/docker.sock:/var/run/docker.sock
     secrets: [ docker_username, docker_password ]
-    #base64 target: deploy
     repo: vanneback/sample-app
     auto_tag: true
-    #tags: 
-    #  - latest
-    #  - v1.0.5 
     when:
-      branch: [ staging ]
+      event: [ tag ]
 #        
 #  build:
 #    image: vanneback/drone-deploy-local-plugin

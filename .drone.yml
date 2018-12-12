@@ -50,10 +50,10 @@ pipeline:
     deployment: sample-app
     container: sample-app
     namespace: staging
-    tag: v1.0.5
+    tag: 1.0.6
     repo: vanneback/sample-app
-    kubernetes_user: admin
-    secrets: [kubernetes_server,  kubernetes_token_staging]
+    #kubernetes_user: admin
+    secrets: [kubernetes_server, kubernetes_token_staging]
     kubernetes_server: ${KUBERNETES_SERVER}
     #kubernetes_server: https://35.228.83.83  
     kubernetes_token: ${KUBERNETES_TOKEN_STAGING}

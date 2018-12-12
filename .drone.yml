@@ -22,6 +22,8 @@ pipeline:
     tags: 
       - latest
       - v1.0.3 
+    when:
+      branch: [ staging ]
 #        
 #  build:
 #    image: vanneback/drone-deploy-local-plugin
@@ -33,33 +35,33 @@ pipeline:
 #    container_name: sample
 #
 
-#  production:
-#    image: quay.io/honestbee/drone-kubernetes
-#    deployment: sample-app
-#    container: sample-app
-#    # namespace: production
-#    #    tag: v1.0.2
-#    repo: vanneback/sample-app
-#    kubernetes_user: kubernetes-admin
-#    kubernetes_server: ${KUBERNETES_SERVER}
-#    kubernetes_cert: ${KUBERNETES_CERT}
-#    kubernetes_token: ${KUBERNETES_TOKEN}
-#    #when:
-#    # branch: [ production ]
+  production:
+    image: quay.io/honestbee/drone-kubernetes
+    deployment: sample-app
+    container: sample-app
+    namespace: production
+    tag: v1.0.3
+    repo: vanneback/sample-app
+    kubernetes_user: kubernetes-admin
+    kubernetes_server: ${KUBERNETES_SERVER}
+    kubernetes_cert: ${KUBERNETES_CERT}
+    kubernetes_token: ${KUBERNETES_TOKEN}
+    when:
+      branch: [ production ]
 
-#  staging:
-#    image: quay.io/honestbee/drone-kubernetes
-#    deployment: sample-app
-#    container: sample-app
-#    namespace: staging
-#    tag: 0.6
-#    repo: vanneback/sample-app
-#    kubernetes_server: ${KUBERNETES_SERVER}
-#    # kubernetes_cert: ${KUBERNETES_CERT_STAGING}
-#    kubernetes_token: ${KUBERNETES_TOKEN}
-#    #when:
-#    # branch: [ staging ]
-#
+  staging:
+    image: quay.io/honestbee/drone-kubernetes
+    deployment: sample-app
+    container: sample-app
+    namespace: staging
+    tag: v1.0.3
+    repo: vanneback/sample-app
+    kubernetes_server: ${KUBERNETES_SERVER}
+    kubernetes_cert: ${KUBERNETES_CERT_STAGING}
+    kubernetes_token: ${KUBERNETES_TOKEN}
+    when:
+      branch: [ staging ]
+
  
       
 #  deploy:

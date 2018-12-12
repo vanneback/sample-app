@@ -5,17 +5,16 @@ metadata:
     app: sample-app
     env: production
   name: sample-app
-  namespace: default
+  namespace: production
 spec:
-  clusterIP: 10.98.66.91
+  #clusterIP: 10.98.66.91
   externalTrafficPolicy: Cluster
   ports:
-  - nodePort: 30489
-    port: 8080
+  - port: 80
     protocol: TCP
     targetPort: 8080
   selector:
     app: sample-app
     env: production
   sessionAffinity: None
-  type: NodePort
+  type: LoadBalancer

@@ -56,7 +56,7 @@ pipeline:
     namespace: staging
     tag: v1.0.5
     repo: vanneback/sample-app
-    secrets: [kubernetes_server]
+    secrets: [kubernetes_server, kubernetes_cert, kubernetes_token_staging]
     kubernetes_server: ${KUBERNETES_SERVER}
     #kubernetes_server: https://35.228.83.83  
     kubernetes_cert: ${KUBERNETES_CERT}

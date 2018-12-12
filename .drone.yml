@@ -40,7 +40,7 @@ pipeline:
     deployment: sample-app
     container: sample-app
     namespace: production
-    tag: v1.0.2
+    tag: v1.0.3
     repo: vanneback/sample-app
     kubernetes_user: kubernetes-admin
     kubernetes_server: ${KUBERNETES_SERVER}

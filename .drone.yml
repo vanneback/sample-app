@@ -23,7 +23,7 @@ pipeline:
       - latest
       - v1.0.5 
     when:
-      branch: [ staging ]
+      branch: [ prod ]
 #        
 #  build:
 #    image: vanneback/drone-deploy-local-plugin
@@ -56,8 +56,8 @@ pipeline:
     namespace: staging
     tag: v1.0.5
     repo: vanneback/sample-app
-    secrets: [
-    kubernetes_server: ${kubernetes_server"
+    kubernetes_server:
+      from_secret: kubernetes_server
     #kubernetes_server: https://35.228.83.83  
     kubernetes_cert: ${KUBERNETES_CERT}
     kubernetes_token: ${KUBERNETES_TOKEN_STAGING}

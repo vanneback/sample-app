@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: sample-app
-        image: vanneback/sample-app:0.4
+        image: vanneback/sample-app:v1.0.3
         resources:
           limits:
             memory: "500Mi"
